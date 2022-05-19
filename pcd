@@ -1,0 +1,23 @@
+import open3d as o3d
+
+#load the color and depth images
+
+color_raw = o3d.io.read_image("Path to rgb image")
+depth_raw = o3d.io.read_image("Path to depth image")
+
+#create an rgbd image from color and depth images
+
+rgbd= o3d.geometry.RGBDImage.create_from_color_and_depth(color_raw, depth_raw)
+
+#set the camera intrinsics with the Width and the Height of the image, its focal length and its principle point
+
+camint= o3d.camera.PinholeCameraIntrinsic()
+camint.set_intrinsics(width, height, fx, fy, cx, cy)
+
+#create the point cloud from rgbd image with the help of the camera intrinsics
+
+pcd= o3d.geometry.PointCloud.create_from_rgbd_image(rgbd, camint)
+
+#save the point cloud file
+
+o3d.io.write_point_cloud("Name_of_file.pcd", pcd)
